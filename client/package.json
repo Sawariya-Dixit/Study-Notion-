@@ -1,16 +1,15 @@
-
 {
   "name": "client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
- "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "postinstall": "chmod +x node_modules/.bin/vite",
-  "lint": "eslint .",
-  "preview": "vite preview"
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "chmod +x node_modules/.bin/vite && node node_modules/vite/bin/vite.js build",
+    "postinstall": "chmod +x node_modules/.bin/vite",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@ramonak/react-progress-bar": "^5.4.0",
     "@reduxjs/toolkit": "^2.11.0",
