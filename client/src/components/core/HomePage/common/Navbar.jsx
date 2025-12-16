@@ -8,7 +8,7 @@ import ProfileDropDown from "../../auth/ProfileDropDown"
 import { BsChevronDown } from "react-icons/bs"
 
 // API
-import { apiConnector } from "../../../../services/apiconnector"
+import { apiConnector } from "../../../../services/apiConnector"
 import { categories } from "../../../../services/operations/apis"
 
 const NavBar = () => {
