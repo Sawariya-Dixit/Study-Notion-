@@ -70,7 +70,7 @@ app.use(
 );
 
 // Preflight fix
-app.options("*", cors());
+// app.options("*", cors());
 
 /* =========================
    ROUTES
