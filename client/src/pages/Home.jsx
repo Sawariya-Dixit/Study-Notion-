@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // Image and Video Import
 import Banner from "../assets/images/banner.mp4";
-import HighlightText from "../components/core/HomePage/HighlightText";
+import HighlightText from "../components/core/HomePage/HighLightText";
 import CodeBlocks from "../components/core/HomePage/CodeBlocks";
 import TimelineSection from "../components/core/HomePage/TimelineSection";
 import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection";
