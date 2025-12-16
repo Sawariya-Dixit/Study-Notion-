@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import CountryCode from "../../data/countrycode";
-import { apiConnector } from "../../services/apiconnector";
+import { apiConnector } from "../../services/apiConnector";
 import { contactusEndpoint } from "../../services/operations/apis";
 
 const ContactUsForm = () => {

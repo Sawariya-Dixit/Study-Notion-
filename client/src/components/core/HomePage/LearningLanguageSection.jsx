@@ -1,10 +1,10 @@
 
 import React from 'react'
-import HighlightText from './HighlightText'
+import HighlightText from './HighLightText'
 import CTAButton from "../HomePage/Button";
-import Know_your_progress from "../../../assets/Images/Know_your_progress.png";
-import Compare_with_others from "../../../assets/Images/Compare_with_others.svg";
-import Plan_your_lessons from "../../../assets/Images/Plan_your_lessons.svg";
+import Know_your_progress from "../../../assets/images/Know_your_progress.png";
+import Compare_with_others from "../../../assets/images/Compare_with_others.svg";
+import Plan_your_lessons from "../../../assets/images/Plan_your_lessons.svg";
 
 const LearningLanguageSection = () => {
   return (
