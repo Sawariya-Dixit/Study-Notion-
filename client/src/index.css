@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/* Tailwind v4 CSS-first theming */
+
+html , body{
+    overflow-x: hidden;
+}
+
+/* Fonts */
+:root {
+  --font-inter: "Inter", sans-serif;
+  --font-edu-sa: "Edu SA Beginner", cursive;
+  --font-mono: "Roboto Mono", monospace;
+
+  /* Colors */
+  --white: #fff;
+  --black: #000;
+  --transparent: #ffffff00;
+
+  /* richblack */
+  --richblack-5: #F1F2FF;
+  --richblack-25: #DBDDEA;
+  --richblack-50: #C5C7D4;
+  --richblack-100: #AFB2BF;
+  --richblack-200: #999DAA;
+  --richblack-300: #838894;
+  --richblack-400: #6E727F;
+  --richblack-500: #585D69;
+  --richblack-600: #424854;
+  --richblack-700: #2C333F;
+  --richblack-800: #161D29;
+  --richblack-900: #000814;
+
+  /* richblue */
+  --richblue-5: #ECF5FF;
+  --richblue-25: #C6D6E1;
+  --richblue-50: #A0B7C3;
+  --richblue-100: #7A98A6;
+  --richblue-200: #537988;
+  --richblue-300: #2D5A6A;
+  --richblue-400: #073B4C;
+  --richblue-500: #063544;
+  --richblue-600: #042E3B;
+  --richblue-700: #032833;
+  --richblue-800: #01212A;
+  --richblue-900: #001B22;
+
+  /* blue */
+  --blue-5: #EAF5FF;
+  --blue-25: #B4DAEC;
+  --blue-50: #7EC0D9;
+  --blue-100: #47A5C5;
+  --blue-200: #118AB2;
+  --blue-300: #0F7A9D;
+  --blue-400: #0C6A87;
+  --blue-500: #0A5A72;
+  --blue-600: #074B5D;
+  --blue-700: #053B48;
+  --blue-800: #022B32;
+  --blue-900: #001B1D;
+
+  /* caribbeangreen */
+  --caribbeangreen-5: #C1FFFD;
+  --caribbeangreen-25: #83F1DE;
+  --caribbeangreen-50: #44E4BF;
+  --caribbeangreen-100: #06D6A0;
+  --caribbeangreen-200: #05BF8E;
+  --caribbeangreen-300: #05A77B;
+  --caribbeangreen-400: #049069;
+  --caribbeangreen-500: #037957;
+  --caribbeangreen-600: #026144;
+  --caribbeangreen-700: #014A32;
+  --caribbeangreen-800: #01321F;
+  --caribbeangreen-900: #001B0D;
+
+  /* brown */
+  --brown-5: #FFF4C4;
+  --brown-25: #FFE395;
+  --brown-50: #FFD166;
+  --brown-100: #E7BC5B;
+  --brown-200: #CFA64F;
+  --brown-300: #B89144;
+  --brown-400: #A07C39;
+  --brown-500: #88662D;
+  --brown-600: #705122;
+  --brown-700: #593C17;
+  --brown-800: #41260B;
+  --brown-900: #291100;
+
+  /* pink */
+  --pink-5: #FFF1F1;
+  --pink-25: #FBC7D1;
+  --pink-50: #F79CB0;
+  --pink-100: #F37290;
+  --pink-200: #EF476F;
+  --pink-300: #D43D63;
+  --pink-400: #BA3356;
+  --pink-500: #9F294A;
+  --pink-600: #841E3E;
+  --pink-700: #691432;
+  --pink-800: #4F0A25;
+  --pink-900: #340019;
+
+  /* yellow */
+  --yellow-5: #FFF970;
+  --yellow-25: #FFE83D;
+  --yellow-50: #FFD60A;
+  --yellow-100: #E7C009;
+  --yellow-200: #CFAB08;
+  --yellow-300: #B69507;
+  --yellow-400: #9E8006;
+  --yellow-500: #866A04;
+  --yellow-600: #6E5503;
+  --yellow-700: #553F02;
+  --yellow-800: #3D2A01;
+  --yellow-900: #251400;
+
+  /* pure-greys */
+  --pure-greys-5: #F9F9F9;
+  --pure-greys-25: #E2E2E2;
+  --pure-greys-50: #CCCCCC;
+  --pure-greys-100: #B5B5B5;
+  --pure-greys-200: #9E9E9E;
+  --pure-greys-300: #888888;
+  --pure-greys-400: #717171;
+  --pure-greys-500: #5B5B5B;
+  --pure-greys-600: #444444;
+  --pure-greys-700: #2D2D2D;
+  --pure-greys-800: #171717;
+  --pure-greys-900: #141414;
+}
+
+/* Usage example */
+.bg-richblack-900 {
+  background-color: var(--richblack-900);
+}
+
+.bg-richblack-800 {
+  background-color: var(--richblack-800);
+  color:var(--richblack-200);
+}
+.text-richblue-200{
+    color: var(--richblue-200);
+}
+.text-yellow-25{
+    color:var(--yellow-25);
+}
+.text-richblack-300{
+    color: var(--richblue-200);
+}
+.text-richblack-400{
+    font-family: var(--font-inter);
+    color: var(--richblack-400);
+}
+.text-richblack-700{
+   
+    color: var(--richblack-700);
+    background-color: var( --pure-greys-5);
+}
+.font-inter {
+  font-family: var(--font-inter);
+}
+.bg-caribbeangreen-700{
+   background-color: var(--caribbeangreen-700);
+   
+}
+.text-caribbeangreen-300{
+  color: var(--caribbeangreen-300);
+}
+
+.border-caribbeangreen-300{
+  border-color: var(--caribbeangreen-300);
+}
+
+.text-richblack-600{
+  color: var(--richblack-600);
+}
+
+.text-richblack-5 {
+  color: var(--richblack-5);
+}
+text-richblack-5:hover{
+  color: var(--richblack-5);
+} 
+
+.text-richblack-25{
+  color: var(--richblack-25);
+}
+.border-richblack-700{
+  border: var(--richblack-700);
+}
+
+.text-richblack-100{
+  color: var(--richblack-100);
+}
+.text-richblack-900{
+  color: var(--richblack-900);
+  background-color: var(--richblack-5);
+
+}
+.bg-richblack-5 {
+  background-color: var(--richblack-5);
+}
