@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { sidebarLinks } from "../../../data/dashboard-links"
 import { logout } from "../../../services/operations/authAPI"
 import ConfirmationModal from "../HomePage/common/ConfirmationModal"
-import SidebarLink from "./SidebarLink"
+import SidebarLink from "./Sidebarlink"
 
 export default function Sidebar() {
   const { user, loading: profileLoading } = useSelector(
