@@ -3,7 +3,12 @@ const jwt = require("jsonwebtoken");
 
 
 exports.auth = async (req, res, next) => {
+    console.log("Cookies:", req.cookies);
+
     try {
+        console.log("Cookies:", req.cookies);
+
+        
         const token =
             req.cookies.token ||
             req.body.token ||
@@ -17,6 +22,7 @@ exports.auth = async (req, res, next) => {
         }
 
         try {
+           
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             req.user = decode;
            
