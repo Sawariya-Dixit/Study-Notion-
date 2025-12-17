@@ -113,6 +113,7 @@ export function login(email, password, navigate) {
 
       // Redux me bhejo
       dispatch(setUser(finalUser));
+      
 
       // LocalStorage me SAFE save
       localStorage.setItem("token", JSON.stringify(response.data.token));

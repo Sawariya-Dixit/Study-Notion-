@@ -2,57 +2,42 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({});
 
-export const apiConnector = async (
-  method,
-  url,
-  bodyData,
-  headers = {},
-  params = {}
-) => {
+export const apiConnector = async (method , url , bodyData , headers = {} , params ) => {
 
-  // 🔑 TOKEN (SAFE PARSE)
-  const token = localStorage.getItem("token")
-    ? JSON.parse(localStorage.getItem("token"))
-    : null;
+    const isFormData = bodyData instanceof FormData;
 
-  const isFormData = bodyData instanceof FormData;
+    // -------------- FIXED FORM-DATA + TOKEN + COOKIES ------------------
+    if (isFormData) {
+        const fetchHeaders = {};
 
-  // ---------------- FORM-DATA REQUEST ----------------
-  if (isFormData) {
-    const fetchHeaders = {
-      ...headers,
-    };
+        // Pass all headers (not just Authorization)
+        for (const key in headers) {
+            fetchHeaders[key] = headers[key];
+        }
 
-    if (token) {
-      fetchHeaders.Authorization = `Bearer ${token}`;
+        const response = await fetch(url, {
+            method,
+            body: bodyData,
+            headers: fetchHeaders,
+            credentials: "include",   
+        });
+
+        const data = await response.json();
+
+        return { 
+            data, 
+            status: response.status, 
+            statusText: response.statusText 
+        };
     }
 
-    const response = await fetch(url, {
-      method,
-      body: bodyData,
-      headers: fetchHeaders,
-      credentials: "include",
+    // ------------------ AXIOS FOR NORMAL REQUESTS --------------------
+    return axiosInstance({
+        method,
+        url,
+        data: bodyData ?? null,
+        headers: headers ?? {},
+        params: params ?? null,
+        withCredentials: true,
     });
-
-    const data = await response.json();
-
-    return {
-      data,
-      status: response.status,
-      statusText: response.statusText,
-    };
-  }
-
-  // ---------------- NORMAL AXIOS REQUEST ----------------
-  return axiosInstance({
-    method,
-    url,
-    data: bodyData ?? null,
-    headers: {
-      ...headers,
-      Authorization: token ? `Bearer ${token}` : undefined,
-    },
-    params: params ?? null,
-    withCredentials: true,
-  });
 };
