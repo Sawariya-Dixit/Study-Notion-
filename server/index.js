@@ -92,7 +92,7 @@ app.use("/api/v1/reach", ContactRoutes);
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "StudyNotion backend is running 🚀",
+    message: "StudyNotion backend is running ",
   });
 });
 
