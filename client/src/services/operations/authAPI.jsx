@@ -115,8 +115,7 @@ export function login(email, password, navigate) {
       dispatch(setUser(finalUser));
 
       // LocalStorage me SAFE save
-        localStorage.setItem("token", response.data.token);
-
+      localStorage.setItem("token", JSON.stringify(response.data.token));
       localStorage.setItem("user", JSON.stringify(finalUser));
 
       navigate("/dashboard/my-profile");
