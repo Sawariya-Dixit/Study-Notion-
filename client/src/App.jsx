@@ -52,8 +52,8 @@ function App(){
               <Signup />
             </OpenRoute>
           }
-        />
-    <Route
+          />
+         <Route
           path="login"
           element={
             <OpenRoute>
