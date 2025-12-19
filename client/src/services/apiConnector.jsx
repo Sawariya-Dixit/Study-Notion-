@@ -12,7 +12,7 @@ export const apiConnector = async (
   // 🔑 TOKEN AUTO ATTACH
   const token = localStorage.getItem("token");
   if (token) {
-    headers.Authorization = `Bearer ${JSON.parse(token)}`;
+    headers.Authorization = `Bearer ${token}`;
   }
 
   const isFormData = bodyData instanceof FormData;

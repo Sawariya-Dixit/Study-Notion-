@@ -116,7 +116,7 @@ export function login(email, password, navigate) {
       
 
       // LocalStorage me SAFE save
-      localStorage.setItem("token", JSON.stringify(response.data.token));
+      localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(finalUser));
 
       navigate("/dashboard/my-profile");
