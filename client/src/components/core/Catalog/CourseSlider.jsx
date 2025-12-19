@@ -1,6 +1,5 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { Autoplay, FreeMode, Pagination, Navigation } from "swiper/modules";
 
 import "swiper/css";
@@ -16,32 +15,54 @@ const CourseSlider = ({ Courses = [] }) => {
       {Courses.length > 0 ? (
         <Swiper
           modules={[FreeMode, Pagination, Autoplay, Navigation]}
-          freeMode={true}
-          loop={true}
+          freeMode
+          loop
           autoplay={{
-            delay: 2200,
+            delay: 2500,
             disableOnInteraction: false,
           }}
           pagination={{ clickable: true }}
           navigation={true}
-          spaceBetween={25}
+          spaceBetween={16}
           breakpoints={{
-            320: { slidesPerView: 1 },
-            640: { slidesPerView: 1.5 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 3.5 },
+            0: {
+              slidesPerView: 1,
+              navigation: false,
+            },
+            480: {
+              slidesPerView: 1.2,
+              navigation: false,
+            },
+            640: {
+              slidesPerView: 1.5,
+              navigation: false,
+            },
+            768: {
+              slidesPerView: 2,
+              navigation: true,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+            1280: {
+              slidesPerView: 3.5,
+            },
           }}
-          className="!pb-8"
+          className="!pb-10"
         >
           {Courses.map((course, index) => (
-            <SwiperSlide key={index}>
-              <Course_Card course={course} Height="h-[250px]" />
+            <SwiperSlide key={index} className="h-auto">
+              <Course_Card
+                course={course}
+                Height="h-40 sm:h-44 md:h-48"
+              />
             </SwiperSlide>
           ))}
         </Swiper>
       ) : (
-        <p className="text-xl text-[var(--richblack-5)]">No Course Found</p>
+        <p className="text-lg sm:text-xl text-[var(--richblack-5)]">
+          No Course Found
+        </p>
       )}
     </>
   );
