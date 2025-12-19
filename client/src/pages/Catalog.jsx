@@ -16,7 +16,7 @@ const Catalog = () => {
   const [catalogPageData, setCatalogPageData] = useState(null);
   const [categoryId, setCategoryId] = useState("");
 
-  // Fetch all categories
+  // ================= FETCH CATEGORIES =================
   useEffect(() => {
     const getCategories = async () => {
       const res = await apiConnector("GET", categories.CATEGORIES_API);
@@ -29,21 +29,20 @@ const Catalog = () => {
     getCategories();
   }, [catalogName]);
 
+  // ================= FETCH CATEGORY DATA =================
   useEffect(() => {
     const getCategoryDetails = async () => {
       try {
         const res = await getCatalogaPageData(categoryId);
-        console.log("Printing res: ", res);
         setCatalogPageData(res);
       } catch (error) {
         console.log(error);
       }
     };
-    if (categoryId) {
-      getCategoryDetails();
-    }
+    if (categoryId) getCategoryDetails();
   }, [categoryId]);
 
+  // ================= LOADING =================
   if (loading || !catalogPageData) {
     return (
       <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
@@ -56,89 +55,102 @@ const Catalog = () => {
     return <Error />;
   }
 
+  // ================= UI =================
   return (
     <>
-      {/* Hero Section */}
-      <div className="box-content bg-[var(--richblack-800)] px-4">
-        <div className="mx-auto flex min-h-[260px] max-w-maxContentTab flex-col justify-center gap-4 lg:max-w-maxContent">
-          <p className="text-sm text-[var(--richblack-300)]">
-            {`Home / Catalog / `}
+      {/* ================= HERO SECTION ================= */}
+      <div className="bg-[var(--richblack-800)] px-4 py-8 sm:py-10">
+        <div className="mx-auto flex max-w-maxContent flex-col gap-3">
+          <p className="text-xs sm:text-sm text-[var(--richblack-300)]">
+            Home / Catalog /{" "}
             <span className="text-[var(--yellow-25)]">
               {catalogPageData?.data?.selectedCategory?.name}
             </span>
           </p>
-          <p className="text-3xl text-[var(--richblack-5)]">
+
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-[var(--richblack-5)]">
             {catalogPageData?.data?.selectedCategory?.name}
-          </p>
-          <p className="max-w-[870px] text-[var(--richblack-200)]">
+          </h1>
+
+          <p className="text-sm sm:text-base max-w-full sm:max-w-[850px] text-[var(--richblack-200)]">
             {catalogPageData?.data?.selectedCategory?.description}
           </p>
         </div>
       </div>
 
-      {/* Section 1 */}
-      <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <div className="section_heading">Courses to get you started</div>
-        <div className="my-4 flex border-b border-b-[var(--richblack-600)] text-sm">
-          <p
-            className={`px-4 py-2 ${
-              active === 1
-                ? "border-b border-b-[var(--yellow-25)] text-[var(--yellow-25)]"
-                : "text-[var(--richblack-50)]"
-            } cursor-pointer`}
+      {/* ================= SECTION 1 ================= */}
+      <div className="mx-auto w-full max-w-maxContent px-4 py-8 sm:py-10">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--richblack-5)]">
+          Courses to get you started
+        </h2>
+
+        {/* Tabs */}
+        <div className="mt-4 flex gap-3 overflow-x-auto border-b border-[var(--richblack-600)] text-xs sm:text-sm">
+          <button
             onClick={() => setActive(1)}
+            className={`px-3 py-2 whitespace-nowrap ${
+              active === 1
+                ? "border-b border-[var(--yellow-25)] text-[var(--yellow-25)]"
+                : "text-[var(--richblack-50)]"
+            }`}
           >
             Most Popular
-          </p>
-          <p
-            className={`px-4 py-2 ${
-              active === 2
-                ? "border-b border-b-[var(--yellow-25)] text-[var(--yellow-25)]"
-                : "text-[var(--richblack-50)]"
-            } cursor-pointer`}
+          </button>
+
+          <button
             onClick={() => setActive(2)}
+            className={`px-3 py-2 whitespace-nowrap ${
+              active === 2
+                ? "border-b border-[var(--yellow-25)] text-[var(--yellow-25)]"
+                : "text-[var(--richblack-50)]"
+            }`}
           >
             New
-          </p>
+          </button>
         </div>
-        <div>
+
+        {/* Slider */}
+        <div className="mt-6 w-full">
           <CourseSlider
             Courses={catalogPageData?.data?.selectedCategory?.courses || []}
           />
         </div>
       </div>
 
-      {/* Section 2 */}
-      <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <div className="section_heading">
+      {/* ================= SECTION 2 ================= */}
+      <div className="mx-auto w-full max-w-maxContent px-4 py-8 sm:py-10">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--richblack-5)]">
           Top courses in{" "}
           {catalogPageData?.data?.differentCategory?.name || "Other Category"}
-        </div>
-        <div className="py-8">
+        </h2>
+
+        <div className="mt-6">
           <CourseSlider
             Courses={catalogPageData?.data?.differentCategory?.courses || []}
           />
         </div>
       </div>
 
-      {/* Section 3 */}
-      <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-        <div className="section_heading">Frequently Bought</div>
-        <div className="py-8">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {(catalogPageData?.data?.mostSellingCourses || [])
-              .slice(0, 4)
-              .map((course, i) => (
-                <Course_Card
-                  course={course}
-                  key={i}
-                  Height={"h-[400px]"}
-                />
-              ))}
-          </div>
+      {/* ================= SECTION 3 ================= */}
+      <div className="mx-auto w-full max-w-maxContent px-4 py-8 sm:py-10">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--richblack-5)]">
+          Frequently Bought
+        </h2>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+          {(catalogPageData?.data?.mostSellingCourses || [])
+            .slice(0, 4)
+            .map((course, i) => (
+              <Course_Card
+                key={i}
+                course={course}
+                Height="h-[340px] sm:h-[380px] lg:h-[400px]"
+              />
+            ))}
         </div>
       </div>
 
+      {/* ================= FOOTER ================= */}
       <Footer />
     </>
   );

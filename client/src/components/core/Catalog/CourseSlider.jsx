@@ -52,15 +52,12 @@ const CourseSlider = ({ Courses = [] }) => {
         >
           {Courses.map((course, index) => (
             <SwiperSlide key={index} className="h-auto">
-              <Course_Card
-                course={course}
-                Height="h-40 sm:h-44 md:h-48"
-              />
+              <Course_Card course={course} />
             </SwiperSlide>
           ))}
         </Swiper>
       ) : (
-        <p className="text-lg sm:text-xl text-[var(--richblack-5)]">
+        <p className="text-base sm:text-lg text-[var(--richblack-5)]">
           No Course Found
         </p>
       )}

@@ -34,10 +34,12 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
       toast.error("You are an Instructor. You can't buy a course.");
       return;
     }
+
     if (token) {
       dispatch(addToCart(course));
       return;
     }
+
     setConfirmationModal({
       text1: "You are not logged in!",
       text2: "Please login to add To Cart",
@@ -51,32 +53,44 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
   return (
     <div
       className="
-        flex flex-col gap-4 rounded-lg 
-        bg-[var(--richblack-700)] 
-        p-4 
+        flex flex-col gap-4
+        rounded-xl
+        bg-[var(--richblack-700)]
+        p-4 sm:p-5
         text-[var(--richblack-5)]
-        shadow-md 
-        md:w-full
+        shadow-md
+        w-full
       "
     >
-      {/* Course Image */}
+      {/* ================= IMAGE ================= */}
       <img
         src={ThumbnailImage}
         alt={courseName}
-        className="w-full max-h-[300px] min-h-[180px] rounded-2xl object-cover md:max-w-full"
+        className="
+          w-full
+          h-[180px] sm:h-[220px] md:h-[260px]
+          rounded-lg
+          object-cover
+        "
       />
 
-      <div className="flex flex-col gap-4 px-2 md:px-4">
-        <div className="text-3xl font-semibold text-[var(--pure-greys-5)]">
-          Rs. {CurrentPrice}
-        </div>
+      {/* ================= CONTENT ================= */}
+      <div className="flex flex-col gap-4 px-1 sm:px-2">
 
-        <div className="flex flex-col gap-3 md:flex-row md:gap-4">
+        {/* PRICE */}
+        <p className="text-2xl sm:text-3xl font-semibold text-[var(--pure-greys-5)]">
+          ₹ {CurrentPrice}
+        </p>
+
+        {/* BUTTONS */}
+        <div className="flex flex-col gap-3 sm:flex-row">
           <button
             className="
-              yellowButton 
-              flex-1 
-              bg-[var(--yellow-50)] 
+              yellowButton
+              flex-1
+              py-2 sm:py-3
+              text-sm sm:text-base
+              bg-[var(--yellow-50)]
               text-[var(--richblack-900)]
             "
             onClick={
@@ -94,9 +108,11 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
             <button
               onClick={handleAddToCart}
               className="
-                blackButton 
-                flex-1 
-                bg-[var(--richblack-900)] 
+                blackButton
+                flex-1
+                py-2 sm:py-3
+                text-sm sm:text-base
+                bg-[var(--richblack-900)]
                 text-[var(--richblack-5)]
               "
             >
@@ -105,33 +121,42 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
           )}
         </div>
 
-        <p className="text-center text-sm text-[var(--richblack-25)]">
+        {/* GUARANTEE */}
+        <p className="text-center text-xs sm:text-sm text-[var(--richblack-25)]">
           30-Day Money-Back Guarantee
         </p>
 
+        {/* INSTRUCTIONS */}
         <div>
-          <p className="my-2 text-xl font-semibold text-[var(--pure-greys-5)]">
-            This Course Includes :
+          <p className="my-2 text-lg sm:text-xl font-semibold text-[var(--pure-greys-5)]">
+            This Course Includes
           </p>
 
-          <div className="flex flex-col gap-2 text-sm text-[var(--caribbeangreen-100)]">
+          <div className="flex flex-col gap-2 text-xs sm:text-sm text-[var(--caribbeangreen-100)]">
             {instructions.map((item, i) => (
               <p key={i} className="flex items-start gap-2">
-                <BsFillCaretRightFill
-                  className="mt-0.5 text-[var(--yellow-25)]"
-                />
+                <BsFillCaretRightFill className="mt-1 text-[var(--yellow-25)]" />
                 <span>{item}</span>
               </p>
             ))}
           </div>
         </div>
 
+        {/* SHARE */}
         <div className="text-center">
           <button
-            className="mx-auto flex items-center gap-2 py-2 text-[var(--yellow-100)]"
             onClick={handleShare}
+            className="
+              mx-auto
+              flex items-center gap-2
+              py-2
+              text-xs sm:text-sm
+              text-[var(--yellow-100)]
+              hover:underline
+            "
           >
-            <FaShareSquare size={16} /> Share
+            <FaShareSquare size={16} />
+            Share
           </button>
         </div>
       </div>
