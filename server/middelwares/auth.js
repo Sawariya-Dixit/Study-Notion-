@@ -6,7 +6,7 @@ exports.auth = async (req, res, next) => {
     console.log("Cookies:", req.cookies);
 
     try {
-        console.log("Cookies:", req.cookies);
+      //  console.log("Cookies:", req.cookies);
 
         
         const token =
@@ -38,7 +38,7 @@ exports.auth = async (req, res, next) => {
         next();
 
     } catch (error) {
-        return res.status(500).json({
+        return res.status(401).json({
             success: false,
             message: 'Error validating token'
         });
