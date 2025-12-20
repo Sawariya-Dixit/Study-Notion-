@@ -17,7 +17,7 @@ export default function EditCourse() {
   const { token } = useSelector((state) => state.auth)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       setLoading(true)
       const result = await getFullDetailsOfCourse(courseId, token)
       console.log(result)
@@ -40,14 +40,16 @@ export default function EditCourse() {
 
   return (
     <div>
-      <h1 className="mb-14 text-3xl font-medium text-richblack-5">
+      {/* Heading */}
+      <h1 className="mb-14 text-3xl font-medium text-[var(--richblack-5)]">
         Edit Course
       </h1>
+
       <div className="mx-auto max-w-[600px]">
         {course ? (
           <RenderSteps />
         ) : (
-          <p className="mt-14 text-center text-3xl font-semibold text-richblack-100">
+          <p className="mt-14 text-center text-3xl font-semibold text-[var(--richblack-100)]">
             Course not found
           </p>
         )}

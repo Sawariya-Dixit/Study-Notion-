@@ -116,12 +116,12 @@ export default function Upload({
             <input {...getInputProps()} />
 
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-[var(--pure-greys-800)]">
-              <FiUploadCloud className="text-2xl text-yellow-50" />
+              <FiUploadCloud className="text-2xl text-var[(--yellow-50)]" />
             </div>
 
             <p className="mt-2 max-w-[200px] text-center text-sm text-[var(--richblack-200)]">
               Drag and drop an {!video ? "image" : "video"}, or click to{" "}
-              <span className="font-semibold text-yellow-50">Browse</span>
+              <span className="font-semibold text-var[(--yellow-50)]">Browse</span>
             </p>
 
             {!video && (
