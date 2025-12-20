@@ -1,215 +1,277 @@
-// components/NestedView.jsx
-import { useState } from "react";
-import { AiFillCaretDown } from "react-icons/ai";
-import { FaPlus } from "react-icons/fa";
-import { MdEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { RxDropdownMenu } from "react-icons/rx";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteSection, deleteSubSection } from "../../../../../services/operations/courseDetailsAPI";
-import { setCourse } from "../../../../../slices/courseSlice";
-import ConfirmationModal from "../../../HomePage/common/ConfirmationModal";
-import SubSectionModal from "./SubSectionModal";
+import { useState } from "react"
+import { AiFillCaretDown } from "react-icons/ai"
+import { FaPlus } from "react-icons/fa"
+import { MdEdit } from "react-icons/md"
+import { RiDeleteBin6Line } from "react-icons/ri"
+import { RxDropdownMenu } from "react-icons/rx"
+import { useDispatch, useSelector } from "react-redux"
+
+import {
+  deleteSection,
+  deleteSubSection,
+} from "../../../../../services/operations/courseDetailsAPI"
+import { setCourse } from "../../../../../slices/courseSlice"
+
+import ConfirmationModal from "../../../HomePage/common/ConfirmationModal"
+import SubSectionModal from "./SubSectionModal"
 
 export default function NestedView({ handleChangeEditSectionName }) {
-  const { course } = useSelector((state) => state.course) || {};
-  const { token } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { course } = useSelector((state) => state.course) || {}
+  const { token } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
 
-  const [addSubSection, setAddSubsection] = useState(null);
-  const [viewSubSection, setViewSubSection] = useState(null);
-  const [editSubSection, setEditSubSection] = useState(null);
-  const [confirmationModal, setConfirmationModal] = useState(null);
+  const [addSubSection, setAddSubsection] = useState(null)
+  const [viewSubSection, setViewSubSection] = useState(null)
+  const [editSubSection, setEditSubSection] = useState(null)
+  const [confirmationModal, setConfirmationModal] = useState(null)
 
   const getPayload = (result) => {
-    if (!result) return null;
-    if (result.data) return result.data;
-    return result;
-  };
+    if (!result) return null
+    if (result.data) return result.data
+    return result
+  }
 
   const callDeleteSectionApi = async (sectionId) => {
     try {
-      let res = await deleteSection(sectionId, token).catch(() => null);
+      let res = await deleteSection(sectionId, token).catch(() => null)
       if (!res) {
-        res = await deleteSection({ sectionId, courseId: course?._id }, token).catch(() => null);
+        res = await deleteSection(
+          { sectionId, courseId: course?._id },
+          token
+        ).catch(() => null)
       }
-      return res;
+      return res
     } catch (err) {
-      console.error("deleteSection API error:", err);
-      return null;
+      console.error(err)
+      return null
     }
-  };
+  }
 
   const handleDeleteSection = async (sectionId) => {
-    const result = await callDeleteSectionApi(sectionId);
-    const payload = getPayload(result);
+    const result = await callDeleteSectionApi(sectionId)
+    const payload = getPayload(result)
 
-    if (payload) {
-      if (payload.courseContent && Array.isArray(payload.courseContent)) {
-        dispatch(setCourse(payload));
-      } else if (payload.updatedCourse && Array.isArray(payload.updatedCourse.courseContent)) {
-        dispatch(setCourse(payload.updatedCourse));
-      } else {
-        // fallback: local removal
-        const prev = Array.isArray(course?.courseContent) ? course.courseContent : [];
-        const updated = prev.filter((s) => s._id !== sectionId);
-        dispatch(setCourse({ ...course, courseContent: updated }));
-      }
+    if (payload?.courseContent) {
+      dispatch(setCourse(payload))
     } else {
-      const prev = Array.isArray(course?.courseContent) ? course.courseContent : [];
-      const updated = prev.filter((s) => s._id !== sectionId);
-      dispatch(setCourse({ ...course, courseContent: updated }));
+      const updated =
+        course?.courseContent?.filter((s) => s._id !== sectionId) || []
+      dispatch(setCourse({ ...course, courseContent: updated }))
     }
 
-    setConfirmationModal(null);
-  };
+    setConfirmationModal(null)
+  }
 
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
     try {
-      let result = await deleteSubSection(subSectionId, token).catch(() => null);
+      let result = await deleteSubSection(subSectionId, token).catch(() => null)
       if (!result) {
-        result = await deleteSubSection({ subSectionId, sectionId }, token).catch(() => null);
+        result = await deleteSubSection(
+          { subSectionId, sectionId },
+          token
+        ).catch(() => null)
       }
 
-      const payload = getPayload(result);
+      const payload = getPayload(result)
 
-      if (payload) {
-        if (payload.SubSection && Array.isArray(payload.SubSection)) {
-          const updatedCourseContent = (course?.courseContent || []).map((section) =>
-            section._id === sectionId ? { ...section, SubSection: payload.SubSection } : section
-          );
-          dispatch(setCourse({ ...course, courseContent: updatedCourseContent }));
-        } else if (payload.updatedSection && Array.isArray(payload.updatedSection.SubSection)) {
-          const updatedCourseContent = (course?.courseContent || []).map((section) =>
-            section._id === sectionId ? payload.updatedSection : section
-          );
-          dispatch(setCourse({ ...course, courseContent: updatedCourseContent }));
-        } else if (payload.courseContent && Array.isArray(payload.courseContent)) {
-          dispatch(setCourse(payload));
-        } else {
-          const updatedCourseContent = (course?.courseContent || []).map((section) =>
-            section._id === sectionId
-              ? { ...section, SubSection: (section.SubSection || []).filter((s) => s?._id !== subSectionId) }
-              : section
-          );
-          dispatch(setCourse({ ...course, courseContent: updatedCourseContent }));
-        }
+      if (payload?.SubSection) {
+        const updated = course.courseContent.map((sec) =>
+          sec._id === sectionId
+            ? { ...sec, SubSection: payload.SubSection }
+            : sec
+        )
+        dispatch(setCourse({ ...course, courseContent: updated }))
       } else {
-        const updatedCourseContent = (course?.courseContent || []).map((section) =>
-          section._id === sectionId
-            ? { ...section, SubSection: (section.SubSection || []).filter((s) => s?._id !== subSectionId) }
-            : section
-        );
-        dispatch(setCourse({ ...course, courseContent: updatedCourseContent }));
+        const updated = course.courseContent.map((sec) =>
+          sec._id === sectionId
+            ? {
+                ...sec,
+                SubSection: sec.SubSection.filter(
+                  (s) => s._id !== subSectionId
+                ),
+              }
+            : sec
+        )
+        dispatch(setCourse({ ...course, courseContent: updated }))
       }
     } catch (err) {
-      console.error("handleDeleteSubSection error:", err);
+      console.error(err)
     } finally {
-      setConfirmationModal(null);
+      setConfirmationModal(null)
     }
-  };
+  }
 
   return (
     <>
-      <div className="rounded-lg bg-richblack-700 p-6 px-8" id="nestedViewContainer">
+      <div
+        className="
+          rounded-lg
+          bg-[var(--richblack-700)]
+          p-4 sm:p-6
+        "
+      >
         {(course?.courseContent || []).map((section) => (
           <details key={section._id} open>
-            <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
-              <div className="flex items-center gap-x-3">
-                <RxDropdownMenu className="text-2xl text-richblack-50" />
-                <p className="font-semibold text-richblack-50">{section.sectionName}</p>
+            <summary
+              className="
+                flex cursor-pointer items-center justify-between
+                border-b
+                border-[var(--richblack-600)]
+                py-2
+              "
+            >
+              <div className="flex items-center gap-3">
+                <RxDropdownMenu className="text-xl text-[var(--richblack-50)]" />
+                <p className="font-semibold text-[var(--richblack-50)]">
+                  {section.sectionName}
+                </p>
               </div>
-              <div className="flex items-center gap-x-3">
+
+              <div className="flex items-center gap-3">
                 <button
                   onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleChangeEditSectionName(section._id, section.sectionName);
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleChangeEditSectionName(
+                      section._id,
+                      section.sectionName
+                    )
                   }}
                 >
-                  <MdEdit className="text-xl text-richblack-300" />
+                  <MdEdit className="text-xl text-[var(--richblack-300)]" />
                 </button>
 
                 <button
                   onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    e.preventDefault()
+                    e.stopPropagation()
                     setConfirmationModal({
                       text1: "Delete this Section?",
-                      text2: "All the lectures in this section will be deleted",
+                      text2:
+                        "All the lectures in this section will be deleted",
                       btn1Text: "Delete",
                       btn2Text: "Cancel",
-                      btn1Handler: () => handleDeleteSection(section._id),
-                      btn2Handler: () => setConfirmationModal(null),
-                    });
+                      btn1Handler: () =>
+                        handleDeleteSection(section._id),
+                      btn2Handler: () =>
+                        setConfirmationModal(null),
+                    })
                   }}
                 >
-                  <RiDeleteBin6Line className="text-xl text-richblack-300" />
+                  <RiDeleteBin6Line className="text-xl text-[var(--richblack-300)]" />
                 </button>
 
-                <span className="font-medium text-richblack-300">|</span>
-                <AiFillCaretDown className="text-xl text-richblack-300" />
+                <span className="text-[var(--richblack-300)]">|</span>
+                <AiFillCaretDown className="text-xl text-[var(--richblack-300)]" />
               </div>
             </summary>
 
-            <div className="px-6 pb-4">
-              {(section.SubSection || []).filter(Boolean).map((data) => (
+            <div className="px-4 sm:px-6 pb-4">
+              {(section.SubSection || []).map((data) => (
                 <div
-                  key={data?._id}
+                  key={data._id}
                   onClick={() => setViewSubSection(data)}
-                  className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2"
+                  className="
+                    flex cursor-pointer items-center justify-between
+                    border-b
+                    border-[var(--richblack-600)]
+                    py-2
+                  "
                 >
-                  <div className="flex items-center gap-x-3 py-2">
-                    <RxDropdownMenu className="text-2xl text-richblack-50" />
-                    <p className="font-semibold text-richblack-50">{data?.title}</p>
+                  <div className="flex items-center gap-3">
+                    <RxDropdownMenu className="text-xl text-[var(--richblack-50)]" />
+                    <p className="font-semibold text-[var(--richblack-50)]">
+                      {data.title}
+                    </p>
                   </div>
-                  <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-x-3">
+
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex gap-3"
+                  >
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setEditSubSection({ ...data, sectionId: section._id });
-                      }}
+                      onClick={() =>
+                        setEditSubSection({
+                          ...data,
+                          sectionId: section._id,
+                        })
+                      }
                     >
-                      <MdEdit className="text-xl text-richblack-300" />
+                      <MdEdit className="text-xl text-[var(--richblack-300)]" />
                     </button>
+
                     <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
+                      onClick={() =>
                         setConfirmationModal({
-                          text1: "Delete this Sub-Section?",
+                          text1: "Delete this Lecture?",
                           text2: "This lecture will be deleted",
                           btn1Text: "Delete",
                           btn2Text: "Cancel",
-                          btn1Handler: () => handleDeleteSubSection(data._id, section._id),
-                          btn2Handler: () => setConfirmationModal(null),
-                        });
-                      }}
+                          btn1Handler: () =>
+                            handleDeleteSubSection(
+                              data._id,
+                              section._id
+                            ),
+                          btn2Handler: () =>
+                            setConfirmationModal(null),
+                        })
+                      }
                     >
-                      <RiDeleteBin6Line className="text-xl text-richblack-300" />
+                      <RiDeleteBin6Line className="text-xl text-[var(--richblack-300)]" />
                     </button>
                   </div>
                 </div>
               ))}
 
               <button
-                onClick={() => setAddSubsection({ sectionId: section._id, title: "", description: "", videoUrl: "" })}
-                className="mt-3 flex items-center gap-x-1 text-yellow-50"
+                onClick={() =>
+                  setAddSubsection({
+                    sectionId: section._id,
+                    title: "",
+                    description: "",
+                    videoUrl: "",
+                  })
+                }
+                className="
+                  mt-3 flex items-center gap-2
+                  text-[var(--yellow-50)]
+                "
               >
-                <FaPlus className="text-lg" />
-                <p>Add Lecture</p>
+                <FaPlus />
+                <span>Add Lecture</span>
               </button>
             </div>
           </details>
         ))}
       </div>
 
-      {addSubSection && <SubSectionModal modalData={addSubSection} setModalData={setAddSubsection} add={true} />}
-      {viewSubSection && <SubSectionModal modalData={viewSubSection} setModalData={setViewSubSection} view={true} />}
-      {editSubSection && <SubSectionModal modalData={editSubSection} setModalData={setEditSubSection} edit={true} />}
+      {addSubSection && (
+        <SubSectionModal
+          modalData={addSubSection}
+          setModalData={setAddSubsection}
+          add
+        />
+      )}
 
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
+      {viewSubSection && (
+        <SubSectionModal
+          modalData={viewSubSection}
+          setModalData={setViewSubSection}
+          view
+        />
+      )}
+
+      {editSubSection && (
+        <SubSectionModal
+          modalData={editSubSection}
+          setModalData={setEditSubSection}
+          edit
+        />
+      )}
+
+      {confirmationModal && (
+        <ConfirmationModal modalData={confirmationModal} />
+      )}
     </>
-  );
+  )
 }

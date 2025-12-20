@@ -15,12 +15,14 @@ export default function PublishCourse() {
   const navigate = useNavigate()
   const { token } = useSelector((state) => state.auth)
   const { course } = useSelector((state) => state.course)
+
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (course?.status === COURSE_STATUS.PUBLISHED) {
       setValue("public", true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const goBack = () => {
@@ -33,68 +35,115 @@ export default function PublishCourse() {
   }
 
   const handleCoursePublish = async () => {
-    // check if form has been updated or not
+    // Form unchanged → no API call
     if (
       (course?.status === COURSE_STATUS.PUBLISHED &&
         getValues("public") === true) ||
-      (course?.status === COURSE_STATUS.DRAFT && getValues("public") === false)
+      (course?.status === COURSE_STATUS.DRAFT &&
+        getValues("public") === false)
     ) {
-      // form has not been updated
-      // no need to make api call
       goToCourses()
       return
     }
+
     const formData = new FormData()
     formData.append("courseId", course._id)
+
     const courseStatus = getValues("public")
       ? COURSE_STATUS.PUBLISHED
       : COURSE_STATUS.DRAFT
+
     formData.append("status", courseStatus)
-    setLoading(true)
-    const result = await editCourseDetails(formData, token)
-    if (result) {
-      goToCourses()
+
+    try {
+      setLoading(true)
+      const result = await editCourseDetails(formData, token)
+      if (result) {
+        goToCourses()
+      }
+    } catch (error) {
+      console.error("Publish error:", error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
-  const onSubmit = (data) => {
-    // console.log(data)
+  const onSubmit = () => {
     handleCoursePublish()
   }
 
   return (
-    <div className="rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
-      <p className="text-2xl font-semibold text-richblack-5">
+    <div
+      className="
+        rounded-md
+        border
+        border-[var(--richblack-700)]
+        bg-[var(--richblack-800)]
+        p-6
+      "
+    >
+      {/* TITLE */}
+      <p className="text-2xl font-semibold text-[var(--richblack-5)]">
         Publish Settings
       </p>
+
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Checkbox */}
+        {/* CHECKBOX */}
         <div className="my-6 mb-8">
-          <label htmlFor="public" className="inline-flex items-center text-lg">
+          <label
+            htmlFor="public"
+            className="inline-flex items-center text-lg"
+          >
             <input
               type="checkbox"
               id="public"
               {...register("public")}
-              className="border-gray-300 h-4 w-4 rounded bg-richblack-500 text-richblack-400 focus:ring-2 focus:ring-richblack-5"
+              className="
+                h-4
+                w-4
+                rounded
+                border
+                border-[var(--pure-greys-300)]
+                bg-[var(--richblack-500)]
+                text-[var(--richblack-400)]
+                focus:ring-2
+                focus:ring-[var(--richblack-5)]
+              "
             />
-            <span className="ml-2 text-richblack-400">
-              Make this course as public
+            <span className="ml-2 text-[var(--richblack-400)]">
+              Make this course public
             </span>
           </label>
         </div>
 
-        {/* Next Prev Button */}
+        {/* BUTTONS */}
         <div className="ml-auto flex max-w-max items-center gap-x-4">
           <button
-            disabled={loading}
             type="button"
+            disabled={loading}
             onClick={goBack}
-            className="flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900"
+            className="
+              flex
+              items-center
+              gap-x-2
+              rounded-md
+              bg-[var(--richblack-300)]
+              py-2
+              px-5
+              font-semibold
+              text-[var(--richblack-900)]
+              hover:bg-[var(--richblack-200)]
+              transition
+            "
           >
             Back
           </button>
-          <IconBtn type="submit" disabled={loading} text="Save Changes" />
+
+          <IconBtn
+            type="submit"
+            disabled={loading}
+            text={loading ? "Saving..." : "Save Changes"}
+          />
         </div>
       </form>
     </div>
