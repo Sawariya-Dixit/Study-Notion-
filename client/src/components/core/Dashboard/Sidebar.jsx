@@ -8,7 +8,7 @@ import { logout } from "../../../services/operations/authAPI"
 import ConfirmationModal from "../HomePage/common/ConfirmationModal"
 import SidebarLink from "./Sidebarlink"   
 
-export default function Sidebar() {
+export default function Sidebar({ open, setOpen }) {
   const { user, loading: profileLoading } = useSelector(
     (state) => state.profile
   )
@@ -16,12 +16,11 @@ export default function Sidebar() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const [confirmationModal, setConfirmationModal] = useState(null)
 
   if (profileLoading || authLoading) {
     return (
-      <div className="grid h-[calc(100vh-3.5rem)] min-w-[220px] place-items-center border-r border-richblack-700 bg-richblack-800">
+      <div className="grid h-screen w-[220px] place-items-center bg-richblack-800">
         <div className="spinner" />
       </div>
     )
@@ -29,8 +28,21 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r border-richblack-700 bg-richblack-800 py-10">
-        
+      {/* Overlay (Mobile only) */}
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+        />
+      )}
+
+      <div
+        className={`fixed z-40 h-[calc(100vh-3.5rem)] w-[220px] 
+        bg-richblack-800 border-r border-richblack-700 py-10
+        transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full"}
+        lg:static lg:translate-x-0`}
+      >
         {/* LINKS */}
         <div className="flex flex-col">
           {sidebarLinks.map((link) => {
@@ -40,6 +52,7 @@ export default function Sidebar() {
                 key={link.id}
                 link={link}
                 iconName={link.icon}
+                onClick={() => setOpen(false)}
               />
             )
           })}
@@ -52,6 +65,7 @@ export default function Sidebar() {
           <SidebarLink
             link={{ name: "Settings", path: "/dashboard/settings" }}
             iconName="VscSettingsGear"
+            onClick={() => setOpen(false)}
           />
 
           <button

@@ -20,27 +20,26 @@ function Dashboard() {
   }
 
   return (
-    <div className="relative flex min-h-[calc(100vh-3.5rem)]">
-      {/* Sidebar */}
-      <Sidebar open={openSidebar} setOpen={setOpenSidebar} />
+<div className="relative flex min-h-[calc(100vh-3.5rem)]">
+  <Sidebar open={openSidebar} setOpen={setOpenSidebar} />
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        {/* Mobile Header */}
-        <div className="sticky top-0 z-20 flex items-center gap-3 bg-richblack-900 px-4 py-3 lg:hidden">
-          <button onClick={() => setOpenSidebar(true)}>
-            <HiMenu className="text-2xl text-richblack-5" />
-          </button>
-          <p className="text-lg font-semibold text-richblack-5">
-            Dashboard
-          </p>
-        </div>
-
-        <div className="mx-auto w-11/12 max-w-[1000px] py-6 lg:py-10">
-          <Outlet />
-        </div>
-      </div>
+  <div className="flex-1 overflow-auto">
+    {/* Mobile Header */}
+    <div className="sticky top-0 z-20 flex items-center gap-3 bg-richblack-900 px-4 py-3 lg:hidden">
+      <button onClick={() => setOpenSidebar(true)}>
+        <HiMenu className="text-2xl text-richblack-5" />
+      </button>
+      <p className="text-lg font-semibold text-richblack-5">
+        Dashboard
+      </p>
     </div>
+
+    <div className="mx-auto w-full px-4 sm:px-6 lg:px-10 max-w-[1200px] py-6">
+      <Outlet />
+    </div>
+  </div>
+</div>
+
   )
 }
 
