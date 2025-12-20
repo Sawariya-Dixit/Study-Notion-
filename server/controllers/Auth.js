@@ -42,13 +42,13 @@ exports.sendOTP = async (req, res) => {
             isOtpPresent = await OTP.findOne({ otp });
         }
 
-      const otpDoc =   await OTP.create({ email, otp });
+        const otpDoc =   await OTP.create({ email, otp });
         console.log(otpDoc);
-        // await mailSender(
-        //     email,
-        //     "StudyNotion OTP Verification",
-        //     otpTemplate(otp)
-        // );
+        await mailSender(
+            email,
+            "StudyNotion OTP Verification",
+            otpTemplate(otp)
+        );
 
         return res.status(200).json({
             success: true,
