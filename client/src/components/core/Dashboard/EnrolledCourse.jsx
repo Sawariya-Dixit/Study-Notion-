@@ -139,7 +139,7 @@ export default function EnrolledCourses() {
                     completed={course.progressPercentage || 0}
                     height="8px"
                     isLabelVisible={false}
-                    bgColor="var(--caribbeangreen-100)"
+                    bgColor="bg-[var(--caribbeangreen-100)]"
                     baseBgColor="var(--richblack-700)"
                   />
                 </div>

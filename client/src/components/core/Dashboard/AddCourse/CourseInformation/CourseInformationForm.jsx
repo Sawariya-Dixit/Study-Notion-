@@ -167,7 +167,7 @@ export default function CourseInformationForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="
         space-y-8 rounded-md
-        border border-[var(--richblack-700)]
+        border border-white
         bg-[var(--richblack-800)]
         p-6
       "
@@ -180,7 +180,7 @@ export default function CourseInformationForm() {
         <input
           {...register("courseTitle", { required: true })}
           placeholder="Enter Course Title"
-          className="form-style"
+          className="form-style text-white"
         />
         {errors.courseTitle && (
           <span className="text-xs text-[var(--pink-200)]">
