@@ -181,11 +181,11 @@ function Home() {
   <InstructorSection />
 
   {/* Reviews from Other Learners */}
-<h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold">
+{/* <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold">
     Reviews from other learners
   </h1>
 
-  <ReviewSlider />
+  <ReviewSlider /> */}
 </div>
 
 

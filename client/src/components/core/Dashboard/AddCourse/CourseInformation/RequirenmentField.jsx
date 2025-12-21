@@ -49,7 +49,7 @@ export default function RequirementsField({
       {/* LABEL */}
       <label
         htmlFor={name}
-        className="text-sm text-[var(--richblack-5)]"
+        className="text-sm text-[var(--richblack-5)] border-white"
       >
         {label} <sup className="text-[var(--pink-200)]">*</sup>
       </label>
@@ -61,7 +61,7 @@ export default function RequirementsField({
           id={name}
           value={requirement}
           onChange={(e) => setRequirement(e.target.value)}
-          className="form-style w-full"
+          className="form-style w-full text-white border-white"
           placeholder="Enter requirement"
         />
 

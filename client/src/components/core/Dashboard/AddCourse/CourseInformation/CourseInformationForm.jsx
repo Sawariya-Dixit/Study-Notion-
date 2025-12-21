@@ -173,14 +173,14 @@ export default function CourseInformationForm() {
       "
     >
       {/* TITLE */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 border-white text-white">
         <label className="text-sm text-[var(--richblack-5)]">
           Course Title *
         </label>
         <input
           {...register("courseTitle", { required: true })}
           placeholder="Enter Course Title"
-          className="form-style text-white"
+          className="form-style"
         />
         {errors.courseTitle && (
           <span className="text-xs text-[var(--pink-200)]">
@@ -190,18 +190,18 @@ export default function CourseInformationForm() {
       </div>
 
       {/* DESCRIPTION */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 border-white text-white">
         <label className="text-sm text-[var(--richblack-5)]">
           Course Short Description *
         </label>
         <textarea
           {...register("courseShortDesc", { required: true })}
-          className="form-style min-h-[130px]"
+          className="form-style min-h-[130px"
         />
       </div>
 
       {/* PRICE */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 text-white border-white">
         <label className="text-sm text-[var(--richblack-5)]">
           Course Price *
         </label>
@@ -216,7 +216,7 @@ export default function CourseInformationForm() {
       </div>
 
       {/* CATEGORY */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 text-white border-white">
         <label className="text-sm text-[var(--richblack-5)]">
           Course Category *
         </label>
@@ -260,7 +260,7 @@ export default function CourseInformationForm() {
       />
 
       {/* BENEFITS */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 text-white border-white">
         <label className="text-sm text-[var(--richblack-5)]">
           Benefits of the Course *
         </label>
