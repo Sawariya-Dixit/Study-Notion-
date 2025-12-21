@@ -7,7 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import ConfirmationModal from "../components/core/HomePage/common/ConfirmationModal";
 import Footer from "../components/core/HomePage/common/Footer";
-import RatingStars from "../components/core/HomePage/common/RatingStars";
+import StarRating from "../components/core/HomePage/common/StarRating";
+
 import CourseAccordionBar from "../components/core/Course/CourseAccordion";
 import CourseDetailsCard from "../components/core/Course/CourseDetailsCard";
 import { formatDate } from "../services/formatDate";
@@ -138,14 +139,21 @@ function CourseDetails() {
               {courseDescription}
             </p>
 
-            <div className="flex flex-wrap items-center gap-2 text-sm">
-              <span className="text-[var(--yellow-25)] font-medium">
-                {avgReviewCount}
-              </span>
-              <RatingStars Review_Count={avgReviewCount} Star_Size={20} />
-              <span>({ratingAndReviews.length} reviews)</span>
-              <span>{studentsEnrolled.length} students</span>
-            </div>
+           <div className="flex flex-wrap items-center gap-2 text-sm">
+  <span className="text-[var(--yellow-25)] font-medium">
+    {avgReviewCount}
+  </span>
+
+  <StarRating
+    rating={avgReviewCount}
+    readOnly={true}
+    size={20}
+  />
+
+  <span>({ratingAndReviews.length} reviews)</span>
+  <span>{studentsEnrolled.length} students</span>
+</div>
+
 
             <p className="text-sm">
               Created By{" "}

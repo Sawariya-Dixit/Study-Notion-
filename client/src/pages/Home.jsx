@@ -175,12 +175,13 @@ function Home() {
       </div>
 
       {/* Section 3 */}
-    <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center gap-16 bg-[var(--richblack-900)] text-[var(--white)] p-10 rounded-2xl">
+   <div className="relative mx-auto my-10 sm:my-20 flex w-full max-w-maxContent flex-col items-center gap-10 sm:gap-16 bg-[var(--richblack-900)] px-4 sm:px-8 lg:px-10 py-10 rounded-2xl">
+
   {/* Become an instructor section */}
   <InstructorSection />
 
   {/* Reviews from Other Learners */}
-  <h1 className="text-center text-4xl font-semibold">
+<h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold">
     Reviews from other learners
   </h1>
 
