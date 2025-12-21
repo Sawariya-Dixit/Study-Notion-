@@ -216,7 +216,7 @@ export default function CourseInformationForm() {
       </div>
 
       {/* CATEGORY */}
-      <div className="flex flex-col gap-2 text-white border-white">
+      <div className="flex flex-col gap-2 ">
         <label className="text-sm text-[var(--richblack-5)]">
           Course Category *
         </label>

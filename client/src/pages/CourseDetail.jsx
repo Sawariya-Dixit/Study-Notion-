@@ -139,7 +139,7 @@ function CourseDetails() {
               {courseDescription}
             </p>
 
-           <div className="flex flex-wrap items-center gap-2 text-sm">
+           {/* <div className="flex flex-wrap items-center gap-2 text-sm">
   <span className="text-[var(--yellow-25)] font-medium">
     {avgReviewCount}
   </span>
@@ -152,7 +152,7 @@ function CourseDetails() {
 
   <span>({ratingAndReviews.length} reviews)</span>
   <span>{studentsEnrolled.length} students</span>
-</div>
+</div> */}
 
 
             <p className="text-sm">
