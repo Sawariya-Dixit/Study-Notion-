@@ -52,7 +52,7 @@ exports.sendOTP = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "OTP sent successfully"
+            message: "OTP sent successfully",
             otp,
          
         });
