@@ -13,56 +13,47 @@ const Profile = require("../models/Profile");
 
 
 exports.sendOTP = async (req, res) => {
-    try {
-        const { email } = req.body;
+  try {
+    const { email } = req.body;
 
-        const user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({
-                success: false,
-                message: 'User already registered'
-            });
-        }
-
-        // generate otp
-        let otp = otpGenerator.generate(6, {
-            upperCaseAlphabets: false,
-            lowerCaseAlphabets: false,
-            specialChars: false,
-        });
-
-        let isOtpPresent = await OTP.findOne({ otp });
-
-        while (isOtpPresent) {
-            otp = otpGenerator.generate(6, {
-                upperCaseAlphabets: false,
-                lowerCaseAlphabets: false,
-                specialChars: false,
-            });
-            isOtpPresent = await OTP.findOne({ otp });
-        }
-
-        const otpDoc =   await OTP.create({ email, otp });
-        console.log(otpDoc);
-        await mailSender(
-            email,
-            "StudyNotion OTP Verification",
-            otpTemplate(otp)
-        );
-
-        return res.status(200).json({
-            success: true,
-            message: "OTP sent successfully",
-            otp,
-         
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message,
-        });
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({
+        success: false,
+        message: "User already registered",
+      });
     }
+
+    // generate otp
+    let otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    await OTP.create({ email, otp });
+
+    //  RESPONSE FIRST
+    res.status(200).json({
+      success: true,
+      message: "OTP generated successfully",
+    });
+
+    // EMAIL BACKGROUND
+    mailSender(
+      email,
+      "StudyNotion OTP Verification",
+      otpTemplate(otp)
+    ).catch(err => {
+      console.error("Email failed:", err.message);
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 
@@ -103,21 +94,31 @@ exports.signUp = async (req, res) => {
             });
         }
 
-        const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+       const recentOtp = await OTP.find({ email })
+  .sort({ createdAt: -1 })
+  .limit(1);
 
-        if (recentOtp.length === 0) {
-            return res.status(400).json({
-                success: false,
-                message: 'OTP not found'
-            });
-        }
+if (recentOtp.length === 0) {
+  return res.status(400).json({
+    success: false,
+    message: "OTP not found",
+  });
+}
 
-        if (otp !== recentOtp[0].otp) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid OTP'
-            });
-        }
+// SAFE COMPARISON
+const dbOtp = String(recentOtp[0].otp).trim();
+const userOtp = String(otp).trim();
+
+console.log("DB OTP:", dbOtp);
+console.log("USER OTP:", userOtp);
+
+if (dbOtp !== userOtp) {
+  return res.status(400).json({
+    success: false,
+    message: "Invalid OTP",
+  });
+}
+
 
         await OTP.deleteMany({ email });
 
